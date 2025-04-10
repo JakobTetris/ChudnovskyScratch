@@ -1,0 +1,71 @@
+# Chudnovsky Algorithm for π - PenguinMod Pseudocode
+
+// This pseudocode represents the blocks that would be used in PenguinMod
+// with the Infinity addon to implement the Chudnovsky algorithm
+
+// NOTE: Using Infinity addon's built-in functions
+// No need to define custom factorial or power functions as they are provided by the addon
+
+// MAIN SCRIPT (WHEN GREEN FLAG CLICKED)
+
+// Initialize variables
+SET C TO (426880 * ROOT 2 OF 10005)
+SET sum TO 0
+SET pi TO 0
+
+// Create UI elements
+CREATE SLIDER [iterations] FROM 1 TO 20 WITH DEFAULT 5
+CREATE BUTTON [Calculate Pi]
+
+// When Calculate button clicked
+WHEN [Calculate Pi] CLICKED
+    // Reset display
+    CLEAR OUTPUT
+    SHOW "Calculating π..."
+    
+    // Reset calculation variables
+    SET sum TO 0
+    SET k TO 0
+    
+    // Main calculation loop
+    REPEAT [iterations] TIMES
+        // Calculate numerator
+        SET numerator TO (power(-1, k) * (6*k)! * (13591409 + 545140134*k))
+        
+        // Calculate denominator
+        SET denominator TO ((3*k)! * power((k)!, 3) * power(640320, 3*k+3/2))
+        
+        // Calculate term and add to sum
+        SET term TO (numerator / denominator)
+        SET sum TO (sum + term)
+        
+        // Update progress
+        SHOW "Completed term " + k + " of " + [iterations]
+        
+        // Increment k
+        CHANGE k BY 1
+    END REPEAT
+    
+    // Calculate final pi value
+    SET pi TO (C / (12 * sum))
+    
+    // Display result
+    SHOW "π = " + pi
+    SHOW "Number of iterations: " + [iterations]
+    
+    // Compare with known value
+    SET known_pi TO 3.14159265358979323846
+    SET difference TO ABS(pi - known_pi)
+    SHOW "Difference from known value: " + difference
+END WHEN
+
+// OPTIMIZATION NOTES
+// 1. For better performance, pre-calculate and store factorial values
+// 2. Use the Infinity addon's large number capabilities
+// 3. Consider implementing binary splitting for faster computation
+// 4. Add visualization of convergence to π
+
+// EXPORT INSTRUCTIONS
+// 1. Click on File menu in PenguinMod
+// 2. Select "Save to your computer"
+// 3. Save with .pmp extension
